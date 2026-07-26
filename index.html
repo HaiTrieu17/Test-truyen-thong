@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trắc nghiệm ATTT - Thật hay Giả?</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0f172a;color:#f8fafc;font-family:'Inter','Segoe UI',system-ui,sans-serif;min-height:100vh}
+  .hide{display:none!important}
+
+  #startScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+  .start-box{max-width:480px;width:100%;text-align:center}
+  .start-box h1{font-size:26px;font-weight:800;margin:0 0 6px}
+  .start-box .sub{color:#64748b;font-size:13px;margin-bottom:24px;line-height:1.5}
+  .info-row{display:flex;gap:10px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+  .info-chip{background:rgba(59,130,246,.12);border-radius:8px;padding:7px 14px;display:flex;align-items:center;gap:6px;color:#93c5fd;font-size:12px;font-weight:600}
+  .form-area{background:rgba(255,255,255,.04);border-radius:12px;padding:16px;margin-bottom:20px;text-align:left}
+  .form-area label{color:#94a3b8;font-size:11px;font-weight:600;display:block;margin-bottom:6px}
+  .form-area input{width:100%;background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 12px;color:#f1f5f9;font-size:14px;outline:none;margin-bottom:12px}
+  .form-area input:last-child{margin-bottom:0}
+  .btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .btn-p{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:14px;font-weight:700;cursor:pointer}
+  .btn-p:disabled{background:#334155;opacity:.5;cursor:default}
+  .btn-s{background:rgba(255,255,255,.06);color:#94a3b8;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 20px;font-size:13px;font-weight:600;cursor:pointer}
+
+  #quizScreen{display:none;flex-direction:column;min-height:100vh}
+  .topbar{background:#1e293b;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:10}
+  .qnum{font-size:15px;font-weight:700}.qnum span{color:#475569;font-size:12px;font-weight:400}
+  .dots{display:flex;gap:4px}.dot{width:8px;height:5px;border-radius:3px;background:rgba(255,255,255,.08);transition:all .3s}.dot.on{width:18px;background:#3b82f6}.dot.ok{background:#22c55e}.dot.no{background:#ef4444}
+  .timer-w{display:flex;align-items:center;gap:6px}.timer-bar{width:50px;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}.timer-fill{height:100%;border-radius:3px;transition:width 1s linear,background .3s}.timer-num{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;min-width:24px;text-align:right}
+  .qbody{max-width:620px;width:100%;margin:0 auto;padding:20px 16px;flex:1}
+  .q-prompt{color:#f1f5f9;font-size:16px;font-weight:600;text-align:center;margin-bottom:16px;line-height:1.5}
+  .img-wrap{margin-bottom:16px;text-align:center}
+  .img-wrap img{max-width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+  .img-error{background:rgba(220,38,38,.08);border:2px dashed rgba(220,38,38,.2);border-radius:10px;padding:32px 20px;text-align:center}
+  .img-error .icon{font-size:40px;margin-bottom:8px}
+  .img-error p{color:#f87171;font-size:13px}
+  .img-error code{color:#fbbf24;font-size:11px;background:rgba(245,158,11,.1);padding:2px 6px;border-radius:3px}
+  .answer-btns{display:flex;gap:12px;justify-content:center}
+  .btn-r,.btn-f{flex:1;max-width:180px;padding:14px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
+  .btn-r{border:2px solid rgba(22,163,74,.3);background:rgba(22,163,74,.08);color:#4ade80}
+  .btn-r:hover{background:rgba(22,163,74,.18);border-color:rgba(22,163,74,.5)}
+  .btn-f{border:2px solid rgba(220,38,38,.3);background:rgba(220,38,38,.08);color:#f87171}
+  .btn-f:hover{background:rgba(220,38,38,.18);border-color:rgba(220,38,38,.5)}
+  .fb{border-radius:12px;padding:16px;margin-top:16px}
+  .fb .head{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+  .fb .lbl{font-weight:700;font-size:15px}
+  .fb .ans-badge{margin-left:auto;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px}
+  .fb p{color:#cbd5e1;font-size:13px;line-height:1.7}
+  .fb .nxt{display:flex;justify-content:center;margin-top:16px}
+
+  #resultScreen{display:none;padding:20px}
+  .rbox{max-width:560px;margin:0 auto}
+  .score-h{text-align:center;padding:28px 0 20px}
+  .score-big{display:inline-flex;align-items:baseline;gap:4px;background:rgba(255,255,255,.04);border-radius:14px;padding:14px 28px}
+  .score-big .n{font-size:44px;font-weight:800}
+  .score-big .d{color:#475569;font-size:18px}
+  .rv-item{background:rgba(255,255,255,.02);border-radius:10px;margin-bottom:8px;overflow:hidden}
+  .rv-item summary{padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;list-style:none}
+  .rv-item summary::-webkit-details-marker{display:none}
+  .rv-body{padding:0 12px 14px}
+  .rv-body img{max-width:100%;max-height:200px;border-radius:6px;display:block;object-fit:contain;margin-bottom:10px}
+  .rv-body .exp{color:#94a3b8;font-size:12px;line-height:1.7;background:rgba(255,255,255,.03);border-radius:8px;padding:10px}
+
+  .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+  .modal-box{background:#1e293b;border-radius:16px;padding:20px;max-width:520px;width:100%;max-height:80vh;overflow:auto;border:1px solid rgba(255,255,255,.08)}
+  .modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .modal-hd h2{font-size:18px;font-weight:800}
+  .modal-cls{background:none;border:none;color:#64748b;font-size:20px;cursor:pointer}
+  .lb-r{display:flex;align-items:center;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.03)}
+  .lb-r.top{background:rgba(255,255,255,.02)}
+  .lb-rk{width:32px;font-size:12px;color:#64748b;font-weight:600}
+  .lb-rk.md{font-size:16px}
+  .lb-nm{flex:1;font-size:13px}
+  .lb-dp{width:90px;color:#64748b;font-size:11px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lb-sc{width:50px;text-align:center;font-size:13px;font-weight:700}
+  .lb-tm{width:50px;text-align:center;color:#64748b;font-size:11px}
+  .lb-dt{width:60px;text-align:center;color:#475569;font-size:10px}
+</style>
+</head>
+<body>
+
+<div id="startScreen">
+  <div class="start-box">
+    <div style="font-size:56px;margin-bottom:12px">🔍</div>
+    <h1>Thật hay Giả?</h1>
+    <p class="sub">Nhận diện email, website, tin nhắn lừa đảo & hình ảnh AI</p>
+    <div class="info-row" id="infoRow"></div>
+    <div class="form-area">
+      <label>Họ tên *</label>
+      <input id="inpName" placeholder="Nhập họ tên">      
+    </div>
+    <div class="btn-row">
+      <button class="btn-p" id="btnStart" disabled onclick="startQuiz()">Bắt đầu làm bài</button>
+      <!-- <button class="btn-s" onclick="showLB()">🏆 Bảng xếp hạng</button> -->
+    </div>
+  </div>
+</div>
+
+<div id="quizScreen">
+  <div class="topbar">
+    <div class="qnum" id="qNum"></div>
+    <div class="dots" id="dots"></div>
+    <div class="timer-w" id="timerW">
+      <div class="timer-bar"><div class="timer-fill" id="tFill"></div></div>
+      <span class="timer-num" id="tNum"></span>
+    </div>
+  </div>
+  <div class="qbody">
+    <div class="q-prompt" id="qPrompt"></div>
+    <div class="img-wrap" id="imgWrap"></div>
+    <div class="answer-btns" id="aBtns">
+      <button class="btn-r" onclick="submitAns(true)">✅ THẬT</button>
+      <button class="btn-f" onclick="submitAns(false)">❌ GIẢ</button>
+    </div>
+    <div id="fbArea" class="hide"></div>
+  </div>
+</div>
+
+<div id="resultScreen"><div class="rbox" id="rBox"></div></div>
+
+<div id="lbModal" class="modal-ov hide" onclick="if(event.target===this)this.classList.add('hide')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-hd"><h2>🏆 Bảng xếp hạng</h2><button class="modal-cls" onclick="document.getElementById('lbModal').classList.add('hide')">✕</button></div>
+    <div id="lbContent"></div>
+  </div>
+</div>
+
+<script>
+
+// ═════════════════════════════════════════════════════════════════════
+
+const SHEET_URL = "";
+const TIME_PER_Q = 45;
+
+
+const QUESTIONS = [
+
+  // ── Câu 1 ──
+  {
+    image: "images/cau1.png",
+    prompt: "Email này là THẬT hay GIẢ?",
+    answer: false,
+    explanation: "Email bắt điền form lạ để khai mật khẩu (Google Forms). Microsoft thật không dùng @google.com hay Google Forms."
+  },
+
+  // ── Câu 2 ──
+  {
+    image: "images/cau2.png",
+    prompt: "Email này là THẬT hay GIẢ?",
+    answer: true,
+    explanation: "Tên miền banhang.shopee.vn thuộc Shopee, và nội dung phù hợp quy trình tài khoản người bán."
+  },
+
+  // ── Câu 3 ──
+  {
+    image: "images/cau3.png",
+    prompt: "Tên miền baohiemxahoivn.co này là THẬT hay GIẢ?",
+    answer: false,
+    explanation: "Tên miền baohiemxahoivn.co dùng đuôi .co thay vì tên miền gov.vn chính thức (mạo danh Bảo hiểm xã hội Việt Nam)"
+  },
+
+  // ── Câu 4 ──
+  {
+    image: "images/cau4.png",
+    prompt: "Tin nhắn SMS này là THẬT hay GIẢ?",
+    answer: false,
+    explanation: "Tên miền vtp.vn là giả mạo ViettelPost (viettelpost.com.vn)"
+  },
+
+  // ── Câu 5 ──
+  {
+    image: "images/cau5.png",
+    prompt: "Tin nhắn này là THẬT hay GIẢ?",
+    answer: true,
+    explanation: "Tin nhắn chỉ cung cấp mã OTP của Xanh SM và nhắc tuyệt đối không chia sẻ, không có liên kết lạ."
+  },
+
+  // ── Câu 6 ──
+  {
+    image: "images/cau6.png",
+    prompt: "Bức ảnh này là THẬT hay GIẢ?",
+    answer: false,
+    explanation: "Ảnh do AI tạo ra"
+  },
+
+
+];
+
+
+
+// ══════════════════════════════════════════════════════════════
+
+let cur=0,ans=[],tLeft=TIME_PER_Q,tInt=null,t0=0,uName="",uDept="";
+const MD=["🥇","🥈","🥉"];
+
+document.getElementById("inpName").addEventListener("input",e=>{uName=e.target.value;document.getElementById("btnStart").disabled=!uName.trim()});
+document.getElementById("inpDept").addEventListener("input",e=>uDept=e.target.value);
+document.getElementById("infoRow").innerHTML=`<div class="info-chip">📝 ${QUESTIONS.length} câu hỏi</div><div class="info-chip">⏱️ ${TIME_PER_Q}s / câu</div><div class="info-chip">📊 Có giải thích đáp án</div>`;
+
+function showScr(id){["startScreen","quizScreen","resultScreen"].forEach(s=>{
+  document.getElementById(s).style.display=s===id?(s==="quizScreen"?"flex":(s==="startScreen"?"flex":"block")):"none";
+})}
+
+function startQuiz(){if(!uName.trim())return;cur=0;ans=[];t0=Date.now();showScr("quizScreen");renderQ();}
+
+function renderQ(){
+  const q=QUESTIONS[cur];
+  document.getElementById("qNum").innerHTML=`${cur+1} <span>/ ${QUESTIONS.length}</span>`;
+  let dots="";QUESTIONS.forEach((_,i)=>{let c="dot";if(i<ans.length)c+=ans[i].ok?" ok":" no";else if(i===cur)c+=" on";dots+=`<div class="${c}"></div>`;});
+  document.getElementById("dots").innerHTML=dots;
+  document.getElementById("qPrompt").textContent=q.prompt;
+
+  // Hiển thị ảnh — báo lỗi nếu không tìm thấy file
+  const w=document.getElementById("imgWrap");
+  if(q.image){
+    w.innerHTML=`<img src="${q.image}" alt="Câu ${cur+1}" onerror="this.parentElement.innerHTML='<div class=\\'img-error\\'><div class=\\'icon\\'>⚠️</div><p>Không tìm thấy ảnh:<br><code>${q.image}</code></p><p style=\\'margin-top:8px;color:#94a3b8;font-size:11px\\'>Kiểm tra file ảnh có nằm đúng thư mục không.</p></div>'">`;
+  } else {
+    w.innerHTML=`<div class="img-error"><div class="icon">🖼️</div><p>Chưa có ảnh — điền đường dẫn vào trường <code>image</code></p></div>`;
+  }
+
+  document.getElementById("aBtns").classList.remove("hide");
+  document.getElementById("fbArea").classList.add("hide");
+  document.getElementById("timerW").style.display="flex";
+  tLeft=TIME_PER_Q;startTimer();
+}
+
+function startTimer(){clearInterval(tInt);updTimer();tInt=setInterval(()=>{tLeft--;updTimer();if(tLeft<=0){clearInterval(tInt);submitAns(null);}},1000);}
+function updTimer(){const p=(tLeft/TIME_PER_Q)*100,c=tLeft<=5?"#ef4444":tLeft<=10?"#f59e0b":"#3b82f6";document.getElementById("tFill").style.cssText=`width:${p}%;background:${c}`;const n=document.getElementById("tNum");n.textContent=tLeft;n.style.color=c;}
+
+function submitAns(choice){
+  clearInterval(tInt);
+  const q=QUESTIONS[cur],ok=choice===q.answer;
+  ans.push({sel:choice,ok});
+  document.getElementById("aBtns").classList.add("hide");
+  document.getElementById("timerW").style.display="none";
+  document.getElementById("dots").children[cur].className="dot "+(ok?"ok":"no");
+
+  let bgC,bdC,icon,lbl;
+  if(choice===null){bgC="rgba(245,158,11,.08)";bdC="rgba(245,158,11,.2)";icon="⏰";lbl='<span style="color:#fbbf24">Hết giờ!</span>';}
+  else if(ok){bgC="rgba(22,163,74,.08)";bdC="rgba(22,163,74,.2)";icon="🎉";lbl='<span style="color:#4ade80">Chính xác!</span>';}
+  else{bgC="rgba(220,38,38,.08)";bdC="rgba(220,38,38,.2)";icon="💡";lbl='<span style="color:#f87171">Chưa đúng!</span>';}
+
+  const badge=q.answer?'<span class="ans-badge" style="background:rgba(22,163,74,.15);color:#4ade80">Đáp án: THẬT</span>':'<span class="ans-badge" style="background:rgba(220,38,38,.15);color:#f87171">Đáp án: GIẢ</span>';
+  const fb=document.getElementById("fbArea");
+  fb.className="fb";fb.style.background=bgC;fb.style.border=`1px solid ${bdC}`;
+  fb.innerHTML=`<div class="head"><span style="font-size:20px">${icon}</span><span class="lbl">${lbl}</span>${badge}</div><p>${q.explanation}</p><div class="nxt"><button class="btn-p" onclick="nextQ()">${cur+1>=QUESTIONS.length?"Xem kết quả 📊":"Câu tiếp theo →"}</button></div>`;
+}
+
+function nextQ(){if(cur+1>=QUESTIONS.length){showResult();return;}cur++;renderQ();}
+
+function showResult(){
+  showScr("resultScreen");
+  const score=ans.filter(a=>a.ok).length,pct=Math.round((score/QUESTIONS.length)*100),tt=Math.round((Date.now()-t0)/1000);
+  let gE,gL,gC;
+  if(pct>=90){gE="🏆";gL="Xuất sắc";gC="#16a34a";}else if(pct>=70){gE="👍";gL="Khá";gC="#2563eb";}else if(pct>=50){gE="📖";gL="Trung bình";gC="#d97706";}else{gE="⚠️";gL="Cần cải thiện";gC="#dc2626";}
+
+  let rv=QUESTIONS.map((q,i)=>{
+    const a=ans[i],ic=a.sel===null?"⏰":a.ok?"✅":"❌",bc=a.sel===null?"rgba(245,158,11,.1)":a.ok?"rgba(22,163,74,.1)":"rgba(220,38,38,.1)";
+    const yours=a.sel===null?"Hết giờ":a.sel?"Bạn chọn: THẬT":"Bạn chọn: GIẢ";
+    const correct=q.answer?"Đáp án: THẬT":"Đáp án: GIẢ";
+    const imgTag=q.image?`<img src="${q.image}" onerror="this.style.display='none'">`:"";
+    return `<details class="rv-item" style="border:1px solid ${bc}"><summary><span style="font-size:14px">${ic}</span><span style="color:#94a3b8;font-size:11px">Câu ${i+1}</span><span style="color:#cbd5e1;font-size:12px;flex:1">${q.prompt}</span><span style="color:#475569">›</span></summary><div class="rv-body">${imgTag}<div style="margin-bottom:8px"><span style="color:${a.ok?"#4ade80":"#f87171"};font-size:12px;font-weight:600">${yours}</span><span style="color:#475569;margin:0 6px">•</span><span style="color:#60a5fa;font-size:12px;font-weight:600">${correct}</span></div><div class="exp">${q.explanation}</div></div></details>`;
+  }).join("");
+
+  document.getElementById("rBox").innerHTML=`
+    <div class="score-h">
+      <div style="font-size:48px;margin-bottom:8px">${gE}</div>
+      <div style="font-size:22px;font-weight:800">${uName}</div>
+      ${uDept?`<div style="color:#64748b;font-size:12px;margin:2px 0 12px">${uDept}</div>`:'<div style="margin-bottom:12px"></div>'}
+      <div class="score-big"><span class="n" style="color:${gC}">${score}</span><span class="d">/ ${QUESTIONS.length}</span></div>
+      <div style="margin-top:8px"><span style="color:${gC};font-size:14px;font-weight:700">${gL}</span><span style="color:#475569;font-size:12px;margin-left:8px">• ${pct}% • ${tt}s</span></div>
+    </div>
+    <div style="margin-bottom:16px">${rv}</div>
+    <div class="btn-row" style="padding-bottom:32px">
+      
+      <button class="btn-s" onclick="showScr('startScreen')">🔄 Làm lại</button>
+    </div>`;
+  window._last={name:uName.trim(),dept:uDept.trim(),score,total:QUESTIONS.length,pct,time:tt,date:new Date().toISOString()};
+}
+
+// ── Storage ──
+// <button class="btn-p" id="btnSave" onclick="saveAndLB()">💾 Lưu điểm & Xem BXH</button>
+// async function saveScore(e){
+//   if(SHEET_URL){try{await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"save",...e})});}catch(err){}}
+//   const l=JSON.parse(localStorage.getItem("qlb")||"[]");l.push(e);l.sort((a,b)=>b.score-a.score||a.time-b.time);localStorage.setItem("qlb",JSON.stringify(l.slice(0,200)));
+// }
+// async function loadScores(){
+//   if(SHEET_URL){try{const r=await fetch(SHEET_URL+"?action=get");const d=await r.json();if(Array.isArray(d))return d;}catch(e){}}
+//   return JSON.parse(localStorage.getItem("qlb")||"[]");
+// }
+// async function saveAndLB(){const b=document.getElementById("btnSave");b.textContent="⏳ Đang lưu...";b.disabled=true;await saveScore(window._last);b.textContent="✅ Đã lưu!";showLB();}
+// async function showLB(){const d=await loadScores();renderLB(d);document.getElementById("lbModal").classList.remove("hide");}
+// function renderLB(data){
+//   if(!data.length){document.getElementById("lbContent").innerHTML='<p style="color:#64748b;font-size:13px;text-align:center;padding:20px">Chưa có ai hoàn thành</p>';return;}
+//   data.sort((a,b)=>b.score-a.score||a.time-b.time);
+//   let h=`<div class="lb-r" style="border-bottom:1px solid rgba(255,255,255,.06)"><span class="lb-rk" style="color:#475569;font-size:10px;font-weight:600">#</span><span class="lb-nm" style="color:#475569;font-size:10px;font-weight:600">HỌ TÊN</span><span class="lb-dp" style="font-size:10px;font-weight:600">P.BAN</span><span class="lb-sc" style="color:#475569;font-size:10px;font-weight:600">ĐIỂM</span><span class="lb-tm" style="font-size:10px;font-weight:600">GIAN</span><span class="lb-dt" style="font-size:10px;font-weight:600">NGÀY</span></div>`;
+//   let rows=data.slice(0,30).map((e,i)=>{
+//     const sc=e.pct>=70?"#4ade80":e.pct>=50?"#fbbf24":"#f87171";
+//     const dt=e.date?new Date(e.date).toLocaleDateString("vi-VN",{day:"2-digit",month:"2-digit"}):"";
+//     return `<div class="lb-r${i<3?" top":""}"><span class="lb-rk${i<3?" md":""}">${i<3?MD[i]:i+1}</span><span class="lb-nm" style="font-weight:${i<3?600:400};color:${i<3?"#f8fafc":"#cbd5e1"}">${e.name}</span><span class="lb-dp">${e.dept||"—"}</span><span class="lb-sc" style="color:${sc}">${e.score}/${e.total}</span><span class="lb-tm">${e.time}s</span><span class="lb-dt">${dt}</span></div>`;
+//   }).join("");
+//   document.getElementById("lbContent").innerHTML=h+rows+`<div style="text-align:center;padding:12px 0;color:#475569;font-size:11px">Tổng: ${data.length} lượt</div>`;
+// }
+</script>
+</body>
+</html>
