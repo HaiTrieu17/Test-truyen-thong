@@ -135,60 +135,73 @@ const SHEET_URL = "";
 const TIME_PER_Q = 45;
 
 
+// const QUESTIONS = [
+
+//   // ── Câu 1 ──
+//   {
+//     image: "images/cau1.png",
+//     prompt: "Email này là THẬT hay GIẢ?",
+//     answer: false,
+//     explanation: "Email bắt điền form lạ để khai mật khẩu (Google Forms). Microsoft thật không dùng @google.com hay Google Forms."
+//   },
+
+//   // ── Câu 2 ──
+//   {
+//     image: "images/cau2.png",
+//     prompt: "Email này là THẬT hay GIẢ?",
+//     answer: true,
+//     explanation: "Tên miền banhang.shopee.vn thuộc Shopee, và nội dung phù hợp quy trình tài khoản người bán."
+//   },
+
+//   // ── Câu 3 ──
+//   {
+//     image: "images/cau3.png",
+//     prompt: "Tên miền baohiemxahoivn.co này là THẬT hay GIẢ?",
+//     answer: false,
+//     explanation: "Tên miền baohiemxahoivn.co dùng đuôi .co thay vì tên miền gov.vn chính thức (mạo danh Bảo hiểm xã hội Việt Nam)"
+//   },
+
+//   // ── Câu 4 ──
+//   {
+//     image: "images/cau4.png",
+//     prompt: "Tin nhắn SMS này là THẬT hay GIẢ?",
+//     answer: false,
+//     explanation: "Tên miền vtp.vn là giả mạo ViettelPost (viettelpost.com.vn)"
+//   },
+
+//   // ── Câu 5 ──
+//   {
+//     image: "images/cau5.png",
+//     prompt: "Tin nhắn này là THẬT hay GIẢ?",
+//     answer: true,
+//     explanation: "Tin nhắn chỉ cung cấp mã OTP của Xanh SM và nhắc tuyệt đối không chia sẻ, không có liên kết lạ."
+//   },
+
+//   // ── Câu 6 ──
+//   {
+//     image: "images/cau6.png",
+//     prompt: "Bức ảnh này là THẬT hay GIẢ?",
+//     answer: false,
+//     explanation: "Ảnh do AI tạo ra"
+//   },
+
+
+// ];
+
 const QUESTIONS = [
-
-  // ── Câu 1 ──
-  {
-    image: "images/cau1.png",
-    prompt: "Email này là THẬT hay GIẢ?",
-    answer: false,
-    explanation: "Email bắt điền form lạ để khai mật khẩu (Google Forms). Microsoft thật không dùng @google.com hay Google Forms."
-  },
-
-  // ── Câu 2 ──
-  {
-    image: "images/cau2.png",
-    prompt: "Email này là THẬT hay GIẢ?",
-    answer: true,
-    explanation: "Tên miền banhang.shopee.vn thuộc Shopee, và nội dung phù hợp quy trình tài khoản người bán."
-  },
-
-  // ── Câu 3 ──
-  {
-    image: "images/cau3.png",
-    prompt: "Tên miền baohiemxahoivn.co này là THẬT hay GIẢ?",
-    answer: false,
-    explanation: "Tên miền baohiemxahoivn.co dùng đuôi .co thay vì tên miền gov.vn chính thức (mạo danh Bảo hiểm xã hội Việt Nam)"
-  },
-
-  // ── Câu 4 ──
-  {
-    image: "images/cau4.png",
-    prompt: "Tin nhắn SMS này là THẬT hay GIẢ?",
-    answer: false,
-    explanation: "Tên miền vtp.vn là giả mạo ViettelPost (viettelpost.com.vn)"
-  },
-
-  // ── Câu 5 ──
-  {
-    image: "images/cau5.png",
-    prompt: "Tin nhắn này là THẬT hay GIẢ?",
-    answer: true,
-    explanation: "Tin nhắn chỉ cung cấp mã OTP của Xanh SM và nhắc tuyệt đối không chia sẻ, không có liên kết lạ."
-  },
-
-  // ── Câu 6 ──
-  {
-    image: "images/cau6.png",
-    prompt: "Bức ảnh này là THẬT hay GIẢ?",
-    answer: false,
-    explanation: "Ảnh do AI tạo ra"
-  },
-
-
+  { image: "images/cau1.png", prompt: "Email này là THẬT hay GIẢ?" },
+  { image: "images/cau2.png", prompt: "Email này là THẬT hay GIẢ?" },
+  { image: "images/cau3.png", prompt: "Tên miền baohiemxahoivn.co này là THẬT hay GIẢ?" },
+  { image: "images/cau4.png", prompt: "Tin nhắn SMS này là THẬT hay GIẢ?" },
+  { image: "images/cau5.png", prompt: "Tin nhắn này là THẬT hay GIẢ?" },
+  { image: "images/cau6.png", prompt: "Bức ảnh này là THẬT hay GIẢ?" },
 ];
+const _k = "W3siYSI6ZmFsc2UsImUiOiJFbWFpbCBi4bqvdCDEkWnhu4FuIGZvcm0gbOG6oSDEkeG7gyBraGFpIG3huq10IGto4bqpdSAoR29vZ2xlIEZvcm1zKS4gTWljcm9zb2Z0IHRo4bq1dCBraMO0bmcgZMO5bmcgQGdvb2dsZS5jb20gaGF5IEdvb2dsZSBGb3Jtcy4ifSx7ImEiOnRydWUsImUiOiJUw6puIG1p4buBbiBiYW5oYW5nLnNob3BlZS52biB0aHXhu5ljIFNob3BlZSwgdsOgIG7hu5lpIGR1bmcgcGjDuSBo4bujcCBxdXkgdHLDrG5oIHTDoGkga2hv4bqjbiBuZ8aw4budaSBiw6FuLiJ9LHsiYSI6ZmFsc2UsImUiOiJUw6puIG1p4buBbiBiYW9oaWVteGFob2l2bi5jbyBkw7luZyDEkcaw4buVaSAuY28gdGhheSB2w6wgdMOqbiBtaeG7gW4gZ292LnZuIGNow61uaCB0aOG7qWMgKG3huqFvIGRhbmggQuG6o28gaGnhu4NtIHjDoyBo4buZaSBWaeG7h3QgTmFtKSJ9LHsiYSI6ZmFsc2UsImUiOiJUw6puIG1p4buBbiB2dHAudm4gbMOgIGdp4bqjIG3huqFvIFZpZXR0ZWxQb3N0ICh2aWV0dGVscG9zdC5jb20udm4pIn0seyJhIjp0cnVlLCJlIjoiVGluIG5o4bqvbiBjaOG7iSBjdW5nIGPhuqVwIG3DoyBPVFAgY+G7p2EgWGFuaCBTTSB2w6Agbmjhuq9jIHR1eeG7h3QgxJHhu5FpIGtow7RuZyBjaGlhIHPhurssIGtow7RuZyBjw7MgbGnDqm4ga+G6v3QgbOG6oS4ifSx7ImEiOmZhbHNlLCJlIjoi4bqibmggZG8gQUkgdOG6oW8gcmEifV0=";
 
-
+// Hàm giải mã — chỉ gọi khi người chơi đã trả lời
+function _d(){try{return JSON.parse(atob(_k))}catch(e){return[]}}
+function getAnswer(i){const d=_d();return d[i]?d[i].a:false}
+function getExplanation(i){const d=_d();return d[i]?d[i].e:""}
 
 // ══════════════════════════════════════════════════════════════
 
@@ -231,7 +244,8 @@ function updTimer(){const p=(tLeft/TIME_PER_Q)*100,c=tLeft<=5?"#ef4444":tLeft<=1
 
 function submitAns(choice){
   clearInterval(tInt);
-  const q=QUESTIONS[cur],ok=choice===q.answer;
+  // const q=QUESTIONS[cur],ok=choice===q.answer;
+  const q=QUESTIONS[cur],ok=choice===getAnswer(cur);
   ans.push({sel:choice,ok});
   document.getElementById("aBtns").classList.add("hide");
   document.getElementById("timerW").style.display="none";
@@ -242,10 +256,11 @@ function submitAns(choice){
   else if(ok){bgC="rgba(22,163,74,.08)";bdC="rgba(22,163,74,.2)";icon="🎉";lbl='<span style="color:#4ade80">Chính xác!</span>';}
   else{bgC="rgba(220,38,38,.08)";bdC="rgba(220,38,38,.2)";icon="💡";lbl='<span style="color:#f87171">Chưa đúng!</span>';}
 
-  const badge=q.answer?'<span class="ans-badge" style="background:rgba(22,163,74,.15);color:#4ade80">Đáp án: THẬT</span>':'<span class="ans-badge" style="background:rgba(220,38,38,.15);color:#f87171">Đáp án: GIẢ</span>';
+  // const badge=q.answer?
+  const badge=getAnswer(cur)?'<span class="ans-badge" style="background:rgba(22,163,74,.15);color:#4ade80">Đáp án: THẬT</span>':'<span class="ans-badge" style="background:rgba(220,38,38,.15);color:#f87171">Đáp án: GIẢ</span>';
   const fb=document.getElementById("fbArea");
   fb.className="fb";fb.style.background=bgC;fb.style.border=`1px solid ${bdC}`;
-  fb.innerHTML=`<div class="head"><span style="font-size:20px">${icon}</span><span class="lbl">${lbl}</span>${badge}</div><p>${q.explanation}</p><div class="nxt"><button class="btn-p" onclick="nextQ()">${cur+1>=QUESTIONS.length?"Xem kết quả 📊":"Câu tiếp theo →"}</button></div>`;
+  fb.innerHTML=`<div class="head"><span style="font-size:20px">${icon}</span><span class="lbl">${lbl}</span>${badge}</div><p>${getExplanation(cur)}</p><div class="nxt"><button class="btn-p" onclick="nextQ()">${cur+1>=QUESTIONS.length?"Xem kết quả 📊":"Câu tiếp theo →"}</button></div>`;
 }
 
 function nextQ(){if(cur+1>=QUESTIONS.length){showResult();return;}cur++;renderQ();}
@@ -259,7 +274,8 @@ function showResult(){
   let rv=QUESTIONS.map((q,i)=>{
     const a=ans[i],ic=a.sel===null?"⏰":a.ok?"✅":"❌",bc=a.sel===null?"rgba(245,158,11,.1)":a.ok?"rgba(22,163,74,.1)":"rgba(220,38,38,.1)";
     const yours=a.sel===null?"Hết giờ":a.sel?"Bạn chọn: THẬT":"Bạn chọn: GIẢ";
-    const correct=q.answer?"Đáp án: THẬT":"Đáp án: GIẢ";
+    // const correct=q.answer?"Đáp án: THẬT":"Đáp án: GIẢ";
+    const correct=getAnswer(i)?"Đáp án: THẬT":"Đáp án: GIẢ";
     const imgTag=q.image?`<img src="${q.image}" onerror="this.style.display='none'">`:"";
     return `<details class="rv-item" style="border:1px solid ${bc}"><summary><span style="font-size:14px">${ic}</span><span style="color:#94a3b8;font-size:11px">Câu ${i+1}</span><span style="color:#cbd5e1;font-size:12px;flex:1">${q.prompt}</span><span style="color:#475569">›</span></summary><div class="rv-body">${imgTag}<div style="margin-bottom:8px"><span style="color:${a.ok?"#4ade80":"#f87171"};font-size:12px;font-weight:600">${yours}</span><span style="color:#475569;margin:0 6px">•</span><span style="color:#60a5fa;font-size:12px;font-weight:600">${correct}</span></div><div class="exp">${q.explanation}</div></div></details>`;
   }).join("");
