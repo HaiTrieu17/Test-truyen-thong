@@ -135,59 +135,6 @@ const SHEET_URL = "";
 const TIME_PER_Q = 45;
 
 
-// const QUESTIONS = [
-
-//   // ── Câu 1 ──
-//   {
-//     image: "images/cau1.png",
-//     prompt: "Email này là THẬT hay GIẢ?",
-//     answer: false,
-//     explanation: "Email bắt điền form lạ để khai mật khẩu (Google Forms). Microsoft thật không dùng @google.com hay Google Forms."
-//   },
-
-//   // ── Câu 2 ──
-//   {
-//     image: "images/cau2.png",
-//     prompt: "Email này là THẬT hay GIẢ?",
-//     answer: true,
-//     explanation: "Tên miền banhang.shopee.vn thuộc Shopee, và nội dung phù hợp quy trình tài khoản người bán."
-//   },
-
-//   // ── Câu 3 ──
-//   {
-//     image: "images/cau3.png",
-//     prompt: "Tên miền baohiemxahoivn.co này là THẬT hay GIẢ?",
-//     answer: false,
-//     explanation: "Tên miền baohiemxahoivn.co dùng đuôi .co thay vì tên miền gov.vn chính thức (mạo danh Bảo hiểm xã hội Việt Nam)"
-//   },
-
-//   // ── Câu 4 ──
-//   {
-//     image: "images/cau4.png",
-//     prompt: "Tin nhắn SMS này là THẬT hay GIẢ?",
-//     answer: false,
-//     explanation: "Tên miền vtp.vn là giả mạo ViettelPost (viettelpost.com.vn)"
-//   },
-
-//   // ── Câu 5 ──
-//   {
-//     image: "images/cau5.png",
-//     prompt: "Tin nhắn này là THẬT hay GIẢ?",
-//     answer: true,
-//     explanation: "Tin nhắn chỉ cung cấp mã OTP của Xanh SM và nhắc tuyệt đối không chia sẻ, không có liên kết lạ."
-//   },
-
-//   // ── Câu 6 ──
-//   {
-//     image: "images/cau6.png",
-//     prompt: "Bức ảnh này là THẬT hay GIẢ?",
-//     answer: false,
-//     explanation: "Ảnh do AI tạo ra"
-//   },
-
-
-// ];
-
 const QUESTIONS = [
   { image: "images/cau1.png", prompt: "Email này là THẬT hay GIẢ?" },
   { image: "images/cau2.png", prompt: "Email này là THẬT hay GIẢ?" },
@@ -198,7 +145,7 @@ const QUESTIONS = [
 ];
 const _k = "W3siYSI6ZmFsc2UsImUiOiJFbWFpbCBi4bqvdCDEkWnhu4FuIGZvcm0gbOG6oSDEkeG7gyBraGFpIG3huq10IGto4bqpdSAoR29vZ2xlIEZvcm1zKS4gTWljcm9zb2Z0IHRo4bq1dCBraMO0bmcgZMO5bmcgQGdvb2dsZS5jb20gaGF5IEdvb2dsZSBGb3Jtcy4ifSx7ImEiOnRydWUsImUiOiJUw6puIG1p4buBbiBiYW5oYW5nLnNob3BlZS52biB0aHXhu5ljIFNob3BlZSwgdsOgIG7hu5lpIGR1bmcgcGjDuSBo4bujcCBxdXkgdHLDrG5oIHTDoGkga2hv4bqjbiBuZ8aw4budaSBiw6FuLiJ9LHsiYSI6ZmFsc2UsImUiOiJUw6puIG1p4buBbiBiYW9oaWVteGFob2l2bi5jbyBkw7luZyDEkcaw4buVaSAuY28gdGhheSB2w6wgdMOqbiBtaeG7gW4gZ292LnZuIGNow61uaCB0aOG7qWMgKG3huqFvIGRhbmggQuG6o28gaGnhu4NtIHjDoyBo4buZaSBWaeG7h3QgTmFtKSJ9LHsiYSI6ZmFsc2UsImUiOiJUw6puIG1p4buBbiB2dHAudm4gbMOgIGdp4bqjIG3huqFvIFZpZXR0ZWxQb3N0ICh2aWV0dGVscG9zdC5jb20udm4pIn0seyJhIjp0cnVlLCJlIjoiVGluIG5o4bqvbiBjaOG7iSBjdW5nIGPhuqVwIG3DoyBPVFAgY+G7p2EgWGFuaCBTTSB2w6Agbmjhuq9jIHR1eeG7h3QgxJHhu5FpIGtow7RuZyBjaGlhIHPhurssIGtow7RuZyBjw7MgbGnDqm4ga+G6v3QgbOG6oS4ifSx7ImEiOmZhbHNlLCJlIjoi4bqibmggZG8gQUkgdOG6oW8gcmEifV0=";
 
-// Hàm giải mã — chỉ gọi khi người chơi đã trả lời
+// 
 function _d(){try{return JSON.parse(atob(_k))}catch(e){return[]}}
 function getAnswer(i){const d=_d();return d[i]?d[i].a:false}
 function getExplanation(i){const d=_d();return d[i]?d[i].e:""}
@@ -244,7 +191,6 @@ function updTimer(){const p=(tLeft/TIME_PER_Q)*100,c=tLeft<=5?"#ef4444":tLeft<=1
 
 function submitAns(choice){
   clearInterval(tInt);
-  // const q=QUESTIONS[cur],ok=choice===q.answer;
   const q=QUESTIONS[cur],ok=choice===getAnswer(cur);
   ans.push({sel:choice,ok});
   document.getElementById("aBtns").classList.add("hide");
@@ -274,7 +220,6 @@ function showResult(){
   let rv=QUESTIONS.map((q,i)=>{
     const a=ans[i],ic=a.sel===null?"⏰":a.ok?"✅":"❌",bc=a.sel===null?"rgba(245,158,11,.1)":a.ok?"rgba(22,163,74,.1)":"rgba(220,38,38,.1)";
     const yours=a.sel===null?"Hết giờ":a.sel?"Bạn chọn: THẬT":"Bạn chọn: GIẢ";
-    // const correct=q.answer?"Đáp án: THẬT":"Đáp án: GIẢ";
     const correct=getAnswer(i)?"Đáp án: THẬT":"Đáp án: GIẢ";
     const imgTag=q.image?`<img src="${q.image}" onerror="this.style.display='none'">`:"";
     return `<details class="rv-item" style="border:1px solid ${bc}"><summary><span style="font-size:14px">${ic}</span><span style="color:#94a3b8;font-size:11px">Câu ${i+1}</span><span style="color:#cbd5e1;font-size:12px;flex:1">${q.prompt}</span><span style="color:#475569">›</span></summary><div class="rv-body">${imgTag}<div style="margin-bottom:8px"><span style="color:${a.ok?"#4ade80":"#f87171"};font-size:12px;font-weight:600">${yours}</span><span style="color:#475569;margin:0 6px">•</span><span style="color:#60a5fa;font-size:12px;font-weight:600">${correct}</span></div><div class="exp">${q.explanation}</div></div></details>`;
@@ -296,29 +241,6 @@ function showResult(){
   window._last={name:uName.trim(),dept:uDept.trim(),score,total:QUESTIONS.length,pct,time:tt,date:new Date().toISOString()};
 }
 
-// ── Storage ──
-// <button class="btn-p" id="btnSave" onclick="saveAndLB()">💾 Lưu điểm & Xem BXH</button>
-// async function saveScore(e){
-//   if(SHEET_URL){try{await fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"save",...e})});}catch(err){}}
-//   const l=JSON.parse(localStorage.getItem("qlb")||"[]");l.push(e);l.sort((a,b)=>b.score-a.score||a.time-b.time);localStorage.setItem("qlb",JSON.stringify(l.slice(0,200)));
-// }
-// async function loadScores(){
-//   if(SHEET_URL){try{const r=await fetch(SHEET_URL+"?action=get");const d=await r.json();if(Array.isArray(d))return d;}catch(e){}}
-//   return JSON.parse(localStorage.getItem("qlb")||"[]");
-// }
-// async function saveAndLB(){const b=document.getElementById("btnSave");b.textContent="⏳ Đang lưu...";b.disabled=true;await saveScore(window._last);b.textContent="✅ Đã lưu!";showLB();}
-// async function showLB(){const d=await loadScores();renderLB(d);document.getElementById("lbModal").classList.remove("hide");}
-// function renderLB(data){
-//   if(!data.length){document.getElementById("lbContent").innerHTML='<p style="color:#64748b;font-size:13px;text-align:center;padding:20px">Chưa có ai hoàn thành</p>';return;}
-//   data.sort((a,b)=>b.score-a.score||a.time-b.time);
-//   let h=`<div class="lb-r" style="border-bottom:1px solid rgba(255,255,255,.06)"><span class="lb-rk" style="color:#475569;font-size:10px;font-weight:600">#</span><span class="lb-nm" style="color:#475569;font-size:10px;font-weight:600">HỌ TÊN</span><span class="lb-dp" style="font-size:10px;font-weight:600">P.BAN</span><span class="lb-sc" style="color:#475569;font-size:10px;font-weight:600">ĐIỂM</span><span class="lb-tm" style="font-size:10px;font-weight:600">GIAN</span><span class="lb-dt" style="font-size:10px;font-weight:600">NGÀY</span></div>`;
-//   let rows=data.slice(0,30).map((e,i)=>{
-//     const sc=e.pct>=70?"#4ade80":e.pct>=50?"#fbbf24":"#f87171";
-//     const dt=e.date?new Date(e.date).toLocaleDateString("vi-VN",{day:"2-digit",month:"2-digit"}):"";
-//     return `<div class="lb-r${i<3?" top":""}"><span class="lb-rk${i<3?" md":""}">${i<3?MD[i]:i+1}</span><span class="lb-nm" style="font-weight:${i<3?600:400};color:${i<3?"#f8fafc":"#cbd5e1"}">${e.name}</span><span class="lb-dp">${e.dept||"—"}</span><span class="lb-sc" style="color:${sc}">${e.score}/${e.total}</span><span class="lb-tm">${e.time}s</span><span class="lb-dt">${dt}</span></div>`;
-//   }).join("");
-//   document.getElementById("lbContent").innerHTML=h+rows+`<div style="text-align:center;padding:12px 0;color:#475569;font-size:11px">Tổng: ${data.length} lượt</div>`;
-// }
 </script>
 </body>
 </html>
