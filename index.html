@@ -143,12 +143,21 @@ const QUESTIONS = [
   { image: "images/cau5.png", prompt: "Tin nhắn này là THẬT hay GIẢ?" },
   { image: "images/cau6.png", prompt: "Bức ảnh này là THẬT hay GIẢ?" },
 ];
-const _k = "W3siYSI6ZmFsc2UsImUiOiJFbWFpbCBi4bqvdCDEkWnhu4FuIGZvcm0gbOG6oSDEkeG7gyBraGFpIG3huq10IGto4bqpdSAoR29vZ2xlIEZvcm1zKS4gTWljcm9zb2Z0IHRo4bq1dCBraMO0bmcgZMO5bmcgQGdvb2dsZS5jb20gaGF5IEdvb2dsZSBGb3Jtcy4ifSx7ImEiOnRydWUsImUiOiJUw6puIG1p4buBbiBiYW5oYW5nLnNob3BlZS52biB0aHXhu5ljIFNob3BlZSwgdsOgIG7hu5lpIGR1bmcgcGjDuSBo4bujcCBxdXkgdHLDrG5oIHTDoGkga2hv4bqjbiBuZ8aw4budaSBiw6FuLiJ9LHsiYSI6ZmFsc2UsImUiOiJUw6puIG1p4buBbiBiYW9oaWVteGFob2l2bi5jbyBkw7luZyDEkcaw4buVaSAuY28gdGhheSB2w6wgdMOqbiBtaeG7gW4gZ292LnZuIGNow61uaCB0aOG7qWMgKG3huqFvIGRhbmggQuG6o28gaGnhu4NtIHjDoyBo4buZaSBWaeG7h3QgTmFtKSJ9LHsiYSI6ZmFsc2UsImUiOiJUw6puIG1p4buBbiB2dHAudm4gbMOgIGdp4bqjIG3huqFvIFZpZXR0ZWxQb3N0ICh2aWV0dGVscG9zdC5jb20udm4pIn0seyJhIjp0cnVlLCJlIjoiVGluIG5o4bqvbiBjaOG7iSBjdW5nIGPhuqVwIG3DoyBPVFAgY+G7p2EgWGFuaCBTTSB2w6Agbmjhuq9jIHR1eeG7h3QgxJHhu5FpIGtow7RuZyBjaGlhIHPhurssIGtow7RuZyBjw7MgbGnDqm4ga+G6v3QgbOG6oS4ifSx7ImEiOmZhbHNlLCJlIjoi4bqibmggZG8gQUkgdOG6oW8gcmEifV0=";
-
 // 
-function _d(){try{return JSON.parse(atob(_k))}catch(e){return[]}}
-function getAnswer(i){const d=_d();return d[i]?d[i].a:false}
-function getExplanation(i){const d=_d();return d[i]?d[i].e:""}
+const _k = "W3siYSI6ZmFsc2UsImUiOiJFbWFpbCBi4bqvdCDEkWnhu4FuIGZvcm0gbOG6oSDEkeG7gyBraGFpIG3huq10IGto4bqpdSAoR29vZ2xlIEZvcm1zKS4gTWljcm9zb2Z0IHRo4bqtdCBraMO0bmcgZMO5bmcgQGdvb2dsZS5jb20gaGF5IEdvb2dsZSBGb3Jtcy4ifSx7ImEiOnRydWUsImUiOiJUw6puIG1p4buBbiBiYW5oYW5nLnNob3BlZS52biB0aHXhu5ljIFNob3BlZSwgdsOgIG7hu5lpIGR1bmcgcGjDuSBo4bujcCBxdXkgdHLDrG5oIHTDoGkga2hv4bqjbiBuZ8aw4budaSBiw6FuLiJ9LHsiYSI6ZmFsc2UsImUiOiJUw6puIG1p4buBbiBiYW9oaWVteGFob2l2bi5jbyBkw7luZyDEkXXDtGkgLmNvIHRoYXkgdsOsIHTDqm4gbWnhu4FuIGdvdi52biBjaMOtbmggdGjhu6ljICht4bqhbyBkYW5oIELhuqNvIGhp4buDbSB4w6MgaOG7mWkgVmnhu4d0IE5hbSkifSx7ImEiOmZhbHNlLCJlIjoiVMOqbiBtaeG7gW4gdnRwLnZuIGzDoCBnaeG6oyBt4bqhbyBWaWV0dGVsUG9zdCAodmlldHRlbHBvc3QuY29tLnZuKSJ9LHsiYSI6dHJ1ZSwiZSI6IlRpbiBuaOG6r24gY2jhu4kgY3VuZyBj4bqlcCBtw6MgT1RQIGPhu6dhIFhhbmggU00gdsOgIG5o4bqvYyB0dXnhu4d0IMSR4buRaSBraMO0bmcgY2hpYSBz4bq7LCBraMO0bmcgY8OzIGxpw6puIGvhur90IGzhuqEuIn0seyJhIjpmYWxzZSwiZSI6IuG6om5oIGRvIEFJIHThuqFvIHJhIn1d";
+
+//
+function _d(){
+  try {
+    const bin = atob(_k);
+    const bytes = new Uint8Array(bin.length);
+    for(let i=0; i<bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const json = new TextDecoder('utf-8').decode(bytes);
+    return JSON.parse(json);
+  } catch(e){ return []; }
+}
+function getAnswer(i){ const d=_d(); return d[i]?d[i].a:false; }
+function getExplanation(i){ const d=_d(); return d[i]?d[i].e:""; }
 
 // ══════════════════════════════════════════════════════════════
 
